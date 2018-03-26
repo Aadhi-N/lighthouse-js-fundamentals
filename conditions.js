@@ -48,3 +48,54 @@ if (!raining) {
 	console.log("Leave your umbrella");
 }
 
+
+function whichSchool(age) {
+	if (age < 13) 
+	{return "Elementary school";
+} else if (age > 13 && age < 18)
+	{return "Secondary School";
+} else {
+	return "Lighthouse Labs";
+}
+}
+
+console.log(whichSchool(5));
+console.log(whichSchool(15));
+console.log(whichSchool(26));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
