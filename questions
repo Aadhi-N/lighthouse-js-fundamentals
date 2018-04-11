@@ -1,0 +1,82 @@
+- diff between master and origin branch
+- master is your branch; origin is your source repository that you cloned from 
+
+
+- markdown text - no formatting in text
+- is git running only because i cloned a repo?
+
+
+- should i approach with chunks (eg make function first?)
+- should i use a for or while loop? what are best scenarios for each?
+- what happens if yu dont use 'continue'?
+
+---
+
+//NOTES - DAY 1:
+- whatevers in the readme file appears as the home page on that repo
+
+- cat (file name) = prints out file in terminal 
+- git is the software that keeps track of file changes locally to the cloud (eg git status .)
+
+- terminal command "open ." = opens the whole directory 
+
+GIT CYCLE:
+* status, add, commit
+* recommended - add one file at a time (avoid git .); if you had to modify more than 1 file, add all together
+
+
+
+//NOTES - DAY 2:
+- call a function even without console.log at the bottom (eg --- myfunction())
+
+-the top function is a definition; if you call global function inside local, just call the function after the console.log, then print console.log again
+(eg console.log(reassignable); // >> “I am in the global scope”
+reassigner();
+console.log(reassignable); // >> “I am in the block scope” )
+
+- USER STORIES: given a condition, i want an outcome, and i want a result
+
+- choose an array to store a bunch of info in it.
+- when summing numbers, have a value that equals zero. 
+
+- node repl (read, eval, print, loop)
+-argV (v stands for vector in other programming language, but in JS in stands for array)
+- first element in argv = location of node file; second is location of the JS file; everything after is executed 
+- 'prototype' on mdn bascially means the var or function name
+- "typecast the string" -- means convert type of data into another 
+- (isNan) --checks if Nan value is not a number (result is true)
+- any methods that usually start with 'is' is a boolean (truthy/falsy values)
+
+- return stops the function or the whole program; it returns a value from the function; happens outside the loop. 
+- break stops the iteration
+- continue repeats the function until the next calculation is made
+- use a while loop when you have an unknown variable and want to loop infinitely (eg print true forevever until the program breaks); a for loop is used for incrementing and you know when to stop (e.g. increment until you reach 10)
+- some languages only have either while loops or for loops
+
+- "which ___(applciation name)" - tells you where your application is located.
+
+-when writing a function, creat it so you can receive 
+- separating functions is good for testability (can isolate your code from each other)
+
+- for loop with "variable OF variable" -- does the counting in the counter for you without defining it.
+
+- declaring a variable that contains code (it just means create the var bananas = function ().
+
+- GLOBAL SCOPES:
+- if you dont declare a function, there's only one scope9which is the global one), not two with variables.
+
+
+- empty array is always truthy 
+
+
+DAY 3 NOTES:
+- associative arrays
+- key value pairs (key is name, value)
+
+
+
+
+
+
+
+
