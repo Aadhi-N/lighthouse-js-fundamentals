@@ -15,8 +15,10 @@ function countingChars(countString) {
 
 	for (i = 0; i < myString.length; i++) {
 		var char = myString.charAt(i);
+
+
 		if 	(myUniqueChars[char] == undefined)  {
-			myUniqueChars[char] = 1
+			myUniqueChars[char] = 1;
 		} else {
 			myUniqueChars[char] += 1;
 		} 
@@ -29,5 +31,4 @@ function countingChars(countString) {
 }
 
 console.log(countingChars("Lighthouse in the house"));
-
 
