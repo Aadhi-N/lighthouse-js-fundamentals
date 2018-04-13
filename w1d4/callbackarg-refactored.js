@@ -2,7 +2,7 @@ function findWaldo(arr, found) {
 
 	arr.forEach(function(name, i){//name becomes each value in the array (.e.g alice, bob, waldo); i becomes the index
 		//there's a specific order that these callbacks need to be listed
-		if (name === "Waldo") { //not checking if index = waldo
+		if (name === "Waldo") { //now checking if index = waldo
 			found(i);
 		}
 	});
