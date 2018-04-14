@@ -4,12 +4,20 @@
 
 function makeLoadedDie() {
   var list = [5, 4, 6, 1, 6, 4, 2, 3, 3, 5];
-  var id = 0;
+  var i = 0;
 
   return function() {
-   id %= list.length; //dont go past the list, if at end, come back to [0]; that's why the list continues again at 5. 
+
+    var num = list[i];
+  	i = (i + 1) % list.length;
+    return num;
+
+    //MORE ADVANCED WAY TO WRITE THIS:
+   // id %= list.length; //dont go past the list, if at end, come back to [0]; that's why the list continues again at 5. 
   	//modulo operator asks what the remainder of the length of the array is. it's zero. so when the current number reaches the zero, it is going to stop. 
-   return list[id++];	
+  	//this checks that i is within its boundaries 
+
+   // return list[i++];//next time id is 'referenced'...	(ITS NOT BEING LOOPED)
 
   }
 }
