@@ -1,1 +1,17 @@
 <h1>My TinyApp Project</h1>
+
+
+	<% if(username){ %>
+		<form method="POST" action="/logout">
+	    <input type="submit" value="Logout"/>
+		<p>username: <%=username%> </p>
+		</form>
+	<% } else{ %>  
+		<form method="POST" action="/login">
+		      <input type="text" name="username" placeholder="username"/>
+		      <input type="submit" value="Submit"/>
+
+		</form> 
+	<% } %>
+
+

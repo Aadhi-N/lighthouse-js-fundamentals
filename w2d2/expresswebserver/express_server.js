@@ -5,6 +5,9 @@ var PORT = process.env.PORT || 8080;
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
 
+var cookieParser = require('cookie-parser')
+app.use(cookieParser())
+
 app.set("view engine", "ejs");
 
 function generateRandomString(keylength) {
@@ -35,18 +38,30 @@ app.get("/urls.json", (req, res) => {
 });
 
 app.get("/urls", (req, res) => {
-	 let templateVars = { urls: urlDatabase };
+	 let templateVars = { 
+	 	urls: urlDatabase,
+	 	username: req.cookies["username"] 
+	 };
 	res.render("urls_index", templateVars)
 });
 
 app.get("/urls/new", (req, res) => {
-  res.render("urls_new");
+	let templateVars = { 
+	 	username: req.cookies["username"] 
+	 };
+
+  res.render("urls_new", templateVars);
 });
 
 
 app.get("/urls/:id", (req, res) => {
 	//same thiing as re[params][id]
-	let templateVars = {shortURL: req.params.id, longURL: urlDatabase[req.params.id] };
+	let templateVars = {
+		shortURL: req.params.id, 
+		longURL: urlDatabase[req.params.id],
+		username: req.cookies["username"]
+	};
+
 	res.render("urls_show", templateVars);
 });
 
@@ -63,12 +78,11 @@ app.post("/urls", (req, res) => {
 	//adding to the database:
 	urlDatabase[shortURL] = longURL;
 
-	res.redirect(`/urls/${shortURL}`); ///////////
+	res.redirect(`/urls/${shortURL}`); 
 });
 
 app.post("/urls/:id/delete", (req, res) => {
 //when i click delete, it will take the short url and remove that
-
 	console.log(urlDatabase);
 	delete urlDatabase[req.params.id]; //taking the id of whatever is coming through urls/:id/delete (it's the short url. once you delete the key, the value (aka long url) is also deleted.)
 
@@ -83,8 +97,22 @@ app.post("/urls/:shortURL/update", (req, res) => {
 	urlDatabase[req.params.shortURL] = longURL;
 	res.redirect(`/urls/${req.params.shortURL}`);
 
+	// res.render("/urls/:shortURL/update", templateVars)
+
 })
 
+app.post("/login", (req, res) => {
+	let username = req.body.username;
+	res.cookie('username', username);
+	res.redirect(`urls/`);
+})
+
+app.post("/logout", (req, res) => {
+	// console.log('Cookies: ', req.cookies);
+	res.clearCookie('username');
+	res.redirect(`urls/`);
+
+})
 
 app.get("/hello", (req, res) => {
 	res.end("<html><body>Hello <b>World</b></body></html>\n");
