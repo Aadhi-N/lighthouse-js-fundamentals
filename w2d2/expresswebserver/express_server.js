@@ -1,0 +1,99 @@
+var express = require("express");
+var app = express();
+var PORT = process.env.PORT || 8080;
+
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({extended: true}));
+
+app.set("view engine", "ejs");
+
+function generateRandomString(keylength) {
+	var key = "";
+	var characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	var charLength = characters.length;
+	var i;
+
+	for (i = 0; i < keylength; i++) {
+		key = key + characters.substr(Math.floor((Math.random() * charLength) + 1), 1);
+	}
+
+	return key;
+}
+
+var urlDatabase = {
+ 	"b2xVn2": "http://www.lighthouselabs.ca",
+ 	"9sm5xK": "http://www.google.com",
+ 	"PxYaaL": "facebook.com"
+ };
+
+app.get("/", (req, res) => {
+	res.end("hello!");
+});
+
+app.get("/urls.json", (req, res) => {
+	res.json(urlDatabase);
+});
+
+app.get("/urls", (req, res) => {
+	 let templateVars = { urls: urlDatabase };
+	res.render("urls_index", templateVars)
+});
+
+app.get("/urls/new", (req, res) => {
+  res.render("urls_new");
+});
+
+
+app.get("/urls/:id", (req, res) => {
+	//same thiing as re[params][id]
+	let templateVars = {shortURL: req.params.id, longURL: urlDatabase[req.params.id] };
+	res.render("urls_show", templateVars);
+});
+
+app.get("/u/:shortURL", (req, res) => { //get the short URL, save it to the long
+  let longURL = urlDatabase[req.params.shortURL]; 
+  res.redirect(longURL);
+});
+
+app.post("/urls", (req, res) => {
+	console.log(req.body);
+	// res.send("ok");
+	let shortURL = generateRandomString(6);
+	let longURL = req.body.longURL;
+	//adding to the database:
+	urlDatabase[shortURL] = longURL;
+
+	res.redirect(`/urls/${shortURL}`); ///////////
+});
+
+app.post("/urls/:id/delete", (req, res) => {
+//when i click delete, it will take the short url and remove that
+
+	console.log(urlDatabase);
+	delete urlDatabase[req.params.id]; //taking the id of whatever is coming through urls/:id/delete (it's the short url. once you delete the key, the value (aka long url) is also deleted.)
+
+	res.redirect(`/urls/`);
+
+})
+
+app.post("/urls/:shortURL/update", (req, res) => {
+	console.log(req.body.longURL);
+	console.log(req.params.shortURL)
+	let longURL = req.body.longURL;
+	urlDatabase[req.params.shortURL] = longURL;
+	res.redirect(`/urls/${req.params.shortURL}`);
+
+})
+
+
+app.get("/hello", (req, res) => {
+	res.end("<html><body>Hello <b>World</b></body></html>\n");
+});
+
+app.listen(PORT, () => {
+	console.log(`Example app lstening on port ${PORT}!`);
+});
+
+
+// Add a POST route that removes a URL resource: POST /urls/:id/delete
+
