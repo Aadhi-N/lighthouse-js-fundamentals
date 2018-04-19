@@ -56,6 +56,10 @@ app.get("/", (req, res) => {
 	res.end("hello!");
 });
 
+app.get("/error", (req, res) => {
+	res.end("<html><body><h1>400 Bad Request</h1></body></html>");
+});
+
 app.get("/urls.json", (req, res) => {
 	res.json(urlDatabase);
 });
@@ -157,21 +161,34 @@ app.post("/register", (req, res) => {
 	// users[randomUserID].email = req.params.email;
 	// users[randomUserID].password = req.params.password;
 
-	users[randomUserID] = {
-		id: randomUserID,
-		email: req.params.email,
-		password: req.params.password
-	};
-	
-	res.cookie("email", email);
-	// res.cookie("password", password);
 
+	let userExists = false;
 
-	// let templateVars = { 
-	//  	username: req.cookies["username"],
-	//  };
+	console.log(email);
+	if (email) {
+		for (key in users) {
+			if (email === users[key].email) {
+				userExists = true; ///hoisting this back up to original false value;
+			} 
+		}
+		if (userExists) {
+			res.redirect("/error");
+		} else { //if new, adding a new user into db
+			users[randomUserID] = {
+				id: randomUserID,
+				email: req.params.email,
+				password: req.params.password
+			};
 
-	res.redirect("/urls");
+			res.cookie("email", email);  //once added, setting the cookie. it's inside the if statement.
+		}
+	}
+
+	if (email === "" || password === "") {
+		res.redirect("/error");
+	} else {
+		res.redirect("/urls");
+	}
 });
 
 app.listen(PORT, () => {
@@ -181,3 +198,5 @@ app.listen(PORT, () => {
 
 // Add a POST route that removes a URL resource: POST /urls/:id/delete
 
+//if username inputted is matched with all existing usernames, and it matches,
+//redirect to 400 error
