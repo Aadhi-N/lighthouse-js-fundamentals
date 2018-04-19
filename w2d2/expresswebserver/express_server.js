@@ -29,6 +29,29 @@ var urlDatabase = {
  	"PxYaaL": "facebook.com"
  };
 
+const users = { 
+  "userRandomID": {
+    id: "userRandomID", 
+    email: "user@example.com", 
+    password: "purple-monkey-dinosaur"
+  },
+ "user2RandomID": {
+    id: "user2RandomID", 
+    email: "user2@example.com", 
+    password: "dishwasher-funk"
+  },
+  "user3RandomID": {
+  	id: "user3RandomID",
+  	email: "bob@bob.com",
+  	password: "notsecure"
+  },
+  "user4RandomID": {
+  	id: "user4RandomID",
+  	email: "amy@amy.com",
+  	password: "verysecure"
+  }
+};
+
 app.get("/", (req, res) => {
 	res.end("hello!");
 });
@@ -59,7 +82,8 @@ app.get("/urls/:id", (req, res) => {
 	let templateVars = {
 		shortURL: req.params.id, 
 		longURL: urlDatabase[req.params.id],
-		username: req.cookies["username"]
+		username: req.cookies["username"],
+		email: req.cookies["email"]
 	};
 
 	res.render("urls_show", templateVars);
@@ -116,6 +140,38 @@ app.post("/logout", (req, res) => {
 
 app.get("/hello", (req, res) => {
 	res.end("<html><body>Hello <b>World</b></body></html>\n");
+});
+
+app.get("/register", (req, res) => {
+	res.render(`register`);
+});
+
+app.post("/register", (req, res) => {
+	console.log(req.body);
+	let randomUserID = generateRandomString(4);
+	let email = req.body.email;
+	let password = req.body.password;
+	///LONGER WAY OF DOING THIS:
+	// users[randomUserID] = {};
+	// users[randomUserID].id = randomUserID; 
+	// users[randomUserID].email = req.params.email;
+	// users[randomUserID].password = req.params.password;
+
+	users[randomUserID] = {
+		id: randomUserID,
+		email: req.params.email,
+		password: req.params.password
+	};
+	
+	res.cookie("email", email);
+	// res.cookie("password", password);
+
+
+	// let templateVars = { 
+	//  	username: req.cookies["username"],
+	//  };
+
+	res.redirect("/urls");
 });
 
 app.listen(PORT, () => {
