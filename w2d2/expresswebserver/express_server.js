@@ -79,7 +79,7 @@ app.get("/urls/new", (req, res) => {
 	let templateVars = { 
 	 	// username: req.cookies["username"] 
 	 	user: req.cookies["user_id"]
-	 	
+
 	 };
 
   res.render("urls_new", templateVars);
@@ -136,7 +136,7 @@ app.post("/urls/:shortURL/update", (req, res) => {
 
 app.post("/logout", (req, res) => {
 	// console.log('Cookies: ', req.cookies);
-	res.clearCookie("user_id", foundUser.id);
+	res.clearCookie("user_id");
 	res.redirect(`urls/`);
 
 });
