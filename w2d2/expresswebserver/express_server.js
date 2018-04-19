@@ -53,7 +53,7 @@ const users = {
 };
 
 app.get("/", (req, res) => {
-	res.end("hello!");
+	res.end("hello, this is the '/ page!");
 });
 
 app.get("/error", (req, res) => {
@@ -67,14 +67,17 @@ app.get("/urls.json", (req, res) => {
 app.get("/urls", (req, res) => {
 	 let templateVars = { 
 	 	urls: urlDatabase,
-	 	username: req.cookies["username"] 
+	 	// username: req.cookies["username"]
+	 	username: req.cookies[users.email]
 	 };
+
 	res.render("urls_index", templateVars)
 });
 
 app.get("/urls/new", (req, res) => {
 	let templateVars = { 
-	 	username: req.cookies["username"] 
+	 	// username: req.cookies["username"] 
+	 	username: req.cookies[users.email]
 	 };
 
   res.render("urls_new", templateVars);
@@ -86,10 +89,9 @@ app.get("/urls/:id", (req, res) => {
 	let templateVars = {
 		shortURL: req.params.id, 
 		longURL: urlDatabase[req.params.id],
-		username: req.cookies["username"],
-		email: req.cookies["email"]
+		// username: req.cookies["username"]
+		username: req.cookies[users.email]
 	};
-
 	res.render("urls_show", templateVars);
 });
 
@@ -129,18 +131,17 @@ app.post("/urls/:shortURL/update", (req, res) => {
 
 })
 
-app.post("/login", (req, res) => {
-	let username = req.body.username;
-	res.cookie('username', username);
-	res.redirect(`urls/`);
-})
 
 app.post("/logout", (req, res) => {
 	// console.log('Cookies: ', req.cookies);
-	res.clearCookie('username');
+	res.clearCookie("user_id", foundUser.id);
 	res.redirect(`urls/`);
 
-})
+});
+
+app.get("/login", (req, res) => {
+	res.render(`login`)
+});
 
 app.get("/hello", (req, res) => {
 	res.end("<html><body>Hello <b>World</b></body></html>\n");
@@ -189,6 +190,40 @@ app.post("/register", (req, res) => {
 	} else {
 		res.redirect("/urls");
 	}
+});
+
+//////////////////////////////////////////////////////////
+app.post("/login", (req, res) => {
+	
+	let email = req.body.email;
+	let password = req.body.password;
+	let foundUser = false;
+
+	if (email) {
+		for (key in users) {
+			if (email === users[key].email) {
+				foundUser = users[key];
+			}
+		}
+
+		if (foundUser) {
+				if (password === foundUser.password) {
+					res.cookie("user_id", foundUser.id);
+					res.redirect("/urls");
+				} else {
+					res.end("<html><body><h1>403 Error</h1></body></html>")
+				}
+
+		} else {
+			res.end("<html><body><h1>403 Error</h1></body></html>");
+		}
+	};
+	
+
+
+	// let username = req.body.username;
+	// res.cookie('username', username);
+	// res.redirect(`urls/`);
 });
 
 app.listen(PORT, () => {
