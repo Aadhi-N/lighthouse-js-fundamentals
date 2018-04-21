@@ -8,8 +8,8 @@
 	<div>ShortURL: <%= shortURL %></div>
 <!-- 	<div>LongURL: <%= longURL %></div> -->
 
-	<form method="POST" action="/urls/<%= urlDatabase[i].shortURL %>/update">
-      <input type="text" name="longURL" value="<%= urlDatabase[i].longURL %>"/>
+	<form method="POST" action="/urls/<%= shortURL %>/update">
+      <input type="text" name="longURL" value="<%= longURL %>"/>
       <input type="submit" value="Update"/>
     </form> 
 
