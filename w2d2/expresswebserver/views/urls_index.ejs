@@ -7,18 +7,18 @@
 </head>
 <body>
 	<ul>
-		<% for (var shortURL in urls) { %>
+		<% for (var i = 0; i < urlDatabase.length; i++) { %>
 			<li>
-				 <%= shortURL %> ---> <%= urls[shortURL] %> <a href="/urls/<%= shortURL %>">Edit</a>
-				 <form method="POST" action="/urls/<%= shortURL %>/delete">
+				 <%= urlDatabase[i].shortURL %> ---> <%= urlDatabase[i].longURL %> <a href="/urls/<%= urlDatabase[i].shortURL %>">Edit</a>
+				 <form method="POST" action="/urls/<%= urlDatabase[i].shortURL %>/delete">
 				 	<input type="submit" value="Delete"/>
 				 </form>
 
 			</li>
 			<% } %>
-			<li>
-			<!-- <a href = "emptylink">Visit external link</a> -->
-			</li>
+<!-- 			<li>
+ -->			<!-- <a href = "emptylink">Visit external link</a> -->
+			<!-- </li> -->
 	</ul>
 
 
