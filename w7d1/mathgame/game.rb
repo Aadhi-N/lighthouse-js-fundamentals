@@ -10,6 +10,7 @@ class Game
 
 		@players = [player1, player2]
 		@turn = TurnManager.new(@players)
+		@question = NewQuestion.new()
 	end
 
 	def game_over?
@@ -20,9 +21,24 @@ class Game
 		while !game_over?
 			current_player = @turn.current_player
 			puts "it's now #{current_player.name}'s turn"
-		end
-	end
+			puts "What is #{@question.number1} plus #{@question.number2}?"
+			life = current_player.take_damage
+			ans = gets.chomp.to_i
 
+			if (ans === @question.answer)
+				puts "Wow, much smart!"
+			elsif (current_player.dead?)
+				puts "GAME OVER! "
+			else
+				puts "Nope...you lost a life! Lives left: #{life}"
+			end
+			puts "Summary score: #{player1.name}: #{player1.life} --- #{player2.name}: #{player2.life}"
+			@turn.next_turn
+		end
+		
+				
+	end
+	
 end
 
 
@@ -41,10 +57,18 @@ class TurnManager
 end
 
 
-class Question
-	number1 = rand(1..20)
-	number2 = rand(1..20)
-	puts "What is #{number1} plus #{number2}?"
+class NewQuestion
+	def number1
+		@number1 = rand(1..20)
+	end
+
+	def number2
+		@number2 = rand(1..20)
+	end
+
+	def answer
+		@number1 + @number2
+	end
 end
 
 

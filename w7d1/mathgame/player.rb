@@ -5,6 +5,15 @@ class Player
 		@name = name
 		@life = 3
 	end
+
+	def take_damage
+		@life -= 1
+	end
+
+	def dead?
+		@life <= 0
+	end
+
 end
 
 
