@@ -1,8 +1,13 @@
-
-
 class TurnManager
 	def initialize(players)
-		@player1 = gets.chomp
+		@players = players.dup.shuffle
+	end
+
+	def current_player
+		@players.first
+	end
+
+	def next_turn
+		@players.rotate!
 	end
 end
-

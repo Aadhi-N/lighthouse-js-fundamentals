@@ -1,5 +1,6 @@
 require './player.rb'
 require './turn-manager.rb'
+require './question-generator.rb'
 
 class Game
 	attr_reader :player1, :player2
@@ -35,52 +36,10 @@ class Game
 			puts "Summary score: #{player1.name}: #{player1.life} --- #{player2.name}: #{player2.life}"
 			@turn.next_turn
 		end
-		
 				
 	end
 	
 end
-
-
-class TurnManager
-	def initialize(players)
-		@players = players.dup.shuffle
-	end
-
-	def current_player
-		@players.first
-	end
-
-	def next_turn
-		@players.rotate!
-	end
-end
-
-
-class NewQuestion
-	def number1
-		@number1 = rand(1..20)
-	end
-
-	def number2
-		@number2 = rand(1..20)
-	end
-
-	def answer
-		@number1 + @number2
-	end
-end
-
-
-
-# MAIN PAGE TO START GAME
-
-game = Game.new()
-game.run
-
-# puts "Welcome to Millie's Math House - Lighthouse Edition"
-# puts game.player1.name
-# puts "Thanks for playing!"
 
 
 
